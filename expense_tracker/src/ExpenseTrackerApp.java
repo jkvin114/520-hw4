@@ -34,8 +34,7 @@ public class ExpenseTrackerApp {
       boolean added = controller.addTransaction(amount, category);
       
       if (!added) {
-        JOptionPane.showMessageDialog(view, "Invalid amount or category entered");
-        view.toFront();
+    	  view.showDialog("Invalid amount or category entered");
       }
     });
 
@@ -49,13 +48,11 @@ public class ExpenseTrackerApp {
           controller.setFilter(categoryFilter);
           boolean filterStatus = controller.applyFilter();
           if(!filterStatus) {
-        	  JOptionPane.showMessageDialog(view, "No filter applied");
-              view.toFront();
+        	  view.showDialog("No filter applied");
           }
       }
      }catch(IllegalArgumentException exception) {
-    JOptionPane.showMessageDialog(view, exception.getMessage());
-    view.toFront();
+    	 view.showDialog(exception.getMessage());
    }});
 
 
@@ -68,13 +65,11 @@ public class ExpenseTrackerApp {
           controller.setFilter(amountFilter);
           boolean filterStatus = controller.applyFilter();
           if(!filterStatus) {
-        	  JOptionPane.showMessageDialog(view, "No filter applied");
-              view.toFront();
+        	  view.showDialog("No filter applied");
           }
       }
     }catch(IllegalArgumentException exception) {
-    	JOptionPane.showMessageDialog(view,exception.getMessage());
-    	view.toFront();
+    	view.showDialog(exception.getMessage());
    }});
 
 
@@ -83,8 +78,7 @@ public class ExpenseTrackerApp {
       int selectedRowIndex = view.getSelectedRowIndex();
       boolean undoStatus = controller.undoTransaction(selectedRowIndex);
       if (undoStatus == false) {
-        JOptionPane.showMessageDialog(view, "Please select a transaction to undo");
-        view.toFront();
+    	  view.showDialog("Please select a transaction to undo");
       }
     });
 

@@ -25,6 +25,8 @@ public class ExpenseTrackerController {
     this.model = model;
     // For the MVC architecture pattern, the Observer design pattern is being
     // used to update the View after manipulating the Model.
+    //hw4 UPDATE: removed view dependency from controller. the view is registered to the model before 
+    // model gets injected into controller.
   }
 
   public void setFilter(TransactionFilter filter) {
@@ -46,6 +48,10 @@ public class ExpenseTrackerController {
     return true;
   }
 
+  /**
+   * 
+   * @return true if filter successfully applied. false on invalid input or null filter.
+   */
   public boolean applyFilter() {
     //null check for filter
     if(filter!=null){

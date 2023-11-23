@@ -246,5 +246,10 @@ public class ExpenseTrackerView extends JFrame implements ExpenseTrackerModelLis
 	  highlightRows(model.getMatchedFilterIndices());
       }
   }
+  
+  public void showDialog(String msg) {
+	  JOptionPane.showMessageDialog(this, msg);
+      toFront();
+  }
     
 }
