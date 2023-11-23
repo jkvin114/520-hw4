@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class ExpenseTrackerModel {
@@ -9,6 +10,8 @@ public class ExpenseTrackerModel {
   //encapsulation - data integrity
   private List<Transaction> transactions;
   private List<Integer> matchedFilterIndices;
+  private HashSet<ExpenseTrackerModelListener> listeners;
+
 
   // This is applying the Observer design pattern.                          
   // Specifically, this is the Observable class. 
@@ -16,6 +19,7 @@ public class ExpenseTrackerModel {
   public ExpenseTrackerModel() {
     transactions = new ArrayList<Transaction>();
     matchedFilterIndices = new ArrayList<Integer>();
+    listeners=new HashSet<ExpenseTrackerModelListener>();
   }
 
   public void addTransaction(Transaction t) {
@@ -26,12 +30,14 @@ public class ExpenseTrackerModel {
     transactions.add(t);
     // The previous filter is no longer valid.
     matchedFilterIndices.clear();
+    stateChanged();
   }
 
   public void removeTransaction(Transaction t) {
     transactions.remove(t);
     // The previous filter is no longer valid.
     matchedFilterIndices.clear();
+    stateChanged();
   }
 
   public List<Transaction> getTransactions() {
@@ -52,6 +58,7 @@ public class ExpenseTrackerModel {
       // For encapsulation, copy in the input list 
       this.matchedFilterIndices.clear();
       this.matchedFilterIndices.addAll(newMatchedFilterIndices);
+      stateChanged();
   }
 
   public List<Integer> getMatchedFilterIndices() {
@@ -72,27 +79,27 @@ public class ExpenseTrackerModel {
   public boolean register(ExpenseTrackerModelListener listener) {
       // For the Observable class, this is one of the methods.
       //
-      // TODO
-      return false;
+	  if(listener == null) return false;
+      return listeners.add(listener);
   }
 
   public int numberOfListeners() {
       // For testing, this is one of the methods.
       //
-      //TODO
-      return 0;
+      return listeners.size();
   }
 
   public boolean containsListener(ExpenseTrackerModelListener listener) {
       // For testing, this is one of the methods.
       //
-      //TODO
-      return false;
+      return listeners.contains(listener);
   }
 
   protected void stateChanged() {
       // For the Observable class, this is one of the methods.
       //
-      //TODO
+	  for(ExpenseTrackerModelListener listener:listeners) {
+		  listener.update(this);
+	  }
   }
 }

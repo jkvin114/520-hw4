@@ -15,7 +15,8 @@ public class ExpenseTrackerApp {
     // Create MVC components
     ExpenseTrackerModel model = new ExpenseTrackerModel();
     ExpenseTrackerView view = new ExpenseTrackerView();
-    ExpenseTrackerController controller = new ExpenseTrackerController(model, view);
+    model.register(view);
+    ExpenseTrackerController controller = new ExpenseTrackerController(model);
     
 
     // Initialize view
@@ -46,7 +47,11 @@ public class ExpenseTrackerApp {
       if (categoryFilterInput != null) {
           // controller.applyCategoryFilter(categoryFilterInput);
           controller.setFilter(categoryFilter);
-          controller.applyFilter();
+          boolean filterStatus = controller.applyFilter();
+          if(!filterStatus) {
+        	  JOptionPane.showMessageDialog(view, "No filter applied");
+              view.toFront();
+          }
       }
      }catch(IllegalArgumentException exception) {
     JOptionPane.showMessageDialog(view, exception.getMessage());
@@ -61,11 +66,15 @@ public class ExpenseTrackerApp {
       AmountFilter amountFilter = new AmountFilter(amountFilterInput);
       if (amountFilterInput != 0.0) {
           controller.setFilter(amountFilter);
-          controller.applyFilter();
+          boolean filterStatus = controller.applyFilter();
+          if(!filterStatus) {
+        	  JOptionPane.showMessageDialog(view, "No filter applied");
+              view.toFront();
+          }
       }
     }catch(IllegalArgumentException exception) {
-    JOptionPane.showMessageDialog(view,exception.getMessage());
-    view.toFront();
+    	JOptionPane.showMessageDialog(view,exception.getMessage());
+    	view.toFront();
    }});
 
 

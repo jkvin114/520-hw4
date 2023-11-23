@@ -33,7 +33,8 @@ public class TestExample {
   public void setup() {
     model = new ExpenseTrackerModel();
     view = new ExpenseTrackerView();
-    controller = new ExpenseTrackerController(model, view);
+    model.register(view);
+    controller = new ExpenseTrackerController(model);
   }
 
     public double getTotalCost() {

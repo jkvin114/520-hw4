@@ -14,7 +14,6 @@ import model.Filter.TransactionFilter;
 public class ExpenseTrackerController {
   
   private ExpenseTrackerModel model;
-  private ExpenseTrackerView view;
   /** 
    * The Controller is applying the Strategy design pattern.
    * This is the has-a relationship with the Strategy class 
@@ -22,12 +21,10 @@ public class ExpenseTrackerController {
    */
   private TransactionFilter filter;
 
-  public ExpenseTrackerController(ExpenseTrackerModel model, ExpenseTrackerView view) {
+  public ExpenseTrackerController(ExpenseTrackerModel model) {
     this.model = model;
-    this.view = view;
     // For the MVC architecture pattern, the Observer design pattern is being
     // used to update the View after manipulating the Model.
-    this.model.register(this.view);
   }
 
   public void setFilter(TransactionFilter filter) {
@@ -45,11 +42,11 @@ public class ExpenseTrackerController {
     
     Transaction t = new Transaction(amount, category);
     model.addTransaction(t);
-    view.update(model);
+    
     return true;
   }
 
-  public void applyFilter() {
+  public boolean applyFilter() {
     //null check for filter
     if(filter!=null){
       // Use the Strategy class to perform the desired filtering
@@ -63,11 +60,11 @@ public class ExpenseTrackerController {
         }
       }
       model.setMatchedFilterIndices(rowIndexes);
-      view.update(model);
+      return true;
     }
     else{
-      JOptionPane.showMessageDialog(view, "No filter applied");
-      view.toFront();}
+    	return false;
+      }
 
   }
 
@@ -76,7 +73,6 @@ public class ExpenseTrackerController {
     if (rowIndex >= 0 && rowIndex < model.getTransactions().size()) {
       Transaction removedTransaction = model.getTransactions().get(rowIndex);
       model.removeTransaction(removedTransaction);
-      view.update(model);
       // The undo was allowed.
       return true;
     }
