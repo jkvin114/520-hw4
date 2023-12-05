@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Stores current state of the expense tracker including the transactions and which indices are surrently matched with the filter.
+ */
 public class ExpenseTrackerModel {
 
   //encapsulation - data integrity
